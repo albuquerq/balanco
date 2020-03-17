@@ -9,7 +9,7 @@ type Product struct {
 	Name     string `json:"name"`
 	Unit     string `json:"unit"`
 	Type     string `json:"type,omitempty"`
-	IsActive string `json:"active"`
+	IsActive bool   `json:"active"`
 }
 
 // Unit is the unit model.
