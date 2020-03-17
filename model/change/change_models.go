@@ -99,3 +99,60 @@ func (ec *EmployeeChange) ChangesByProps(props ...string) ([]interface{}, error)
 
 	return values, nil
 }
+
+type UnitChange struct {
+	Name     *string `json:"name"`
+	CNES     *string `json:"CNES"`
+	IsActive *bool   `json:"active"`
+}
+
+func Unit() *UnitChange {
+	return &UnitChange{}
+}
+
+func (uc *UnitChange) SetName(name string) *UnitChange {
+	if name != "" {
+		uc.Name = &name
+	}
+	return uc
+}
+
+func (uc *UnitChange) SetCNES(cnes string) *UnitChange {
+	if cnes != "" {
+		uc.CNES = &cnes
+	}
+	return uc
+}
+
+func (uc *UnitChange) SetIsActive(active bool) *UnitChange {
+	uc.IsActive = &active
+	return uc
+}
+
+func (uc *UnitChange) Changes() map[string]interface{} {
+	changes := make(map[string]interface{})
+	if uc.Name != nil {
+		changes["name"] = *uc.Name
+	}
+	if uc.CNES != nil {
+		changes["cnes"] = *uc.CNES
+	}
+	if uc.IsActive != nil {
+		changes["active"] = *uc.IsActive
+	}
+	return changes
+}
+
+func (uc *UnitChange) ChangesByProps(props ...string) ([]interface{}, error) {
+	values := make([]interface{}, 0, len(props))
+	changes := uc.Changes()
+
+	for _, prop := range props {
+		if value, exists := changes[prop]; exists {
+			values = append(values, value)
+		} else {
+			return nil, fmt.Errorf("\"%s\" not found in properties of UnitChange", prop)
+		}
+	}
+	return values, nil
+}

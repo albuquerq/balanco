@@ -29,3 +29,27 @@ func TestEmployee(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestUnit(t *testing.T) {
+	uc := Unit()
+
+	uc.SetName("Unidade de teste").
+		SetCNES("31434134").
+		SetIsActive(false)
+
+	t.Log(uc.Changes())
+
+	values, err := uc.ChangesByProps("name", "active", "isActive", "cnes")
+	if err != nil {
+		t.Log(err, values, len(values))
+	} else {
+		t.Fail()
+	}
+
+	values, err = uc.ChangesByProps("name", "active", "cnes")
+	if err != nil {
+		t.Error(err)
+	} else {
+		t.Log(values, len(values))
+	}
+}
