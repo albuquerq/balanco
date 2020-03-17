@@ -20,4 +20,11 @@ type Storer interface {
 	UnitGet(ctx context.Context, unitID int64) (*model.Unit, error)
 	UnitList(ctx context.Context, limit, offset int64) ([]*model.Unit, int64, error)
 	UnitUpdate(ctx context.Context, unitID int64, uc *change.UnitChange) error
+
+	ProductSave(ctx context.Context, p *model.Product) error
+	ProductUpdate(ctx context.Context, productID int64, pc *change.ProductChange) error
+	ProductList(ctx context.Context, limit, offset int64) ([]*model.Product, int64, error)
+	ProductListByNameLike(ctx context.Context, limit, offset int64) ([]*model.Product, int64, error)
+	ProductListInactive(ctx context.Context, limit, offset int64) ([]*model.Product, int64, error)
+	ProductListByType(ctx context.Context, ptype string, limit, offset int64) ([]*model.Product, int64, error)
 }

@@ -53,3 +53,31 @@ func TestUnit(t *testing.T) {
 		t.Log(values, len(values))
 	}
 }
+
+func TestProduct(t *testing.T) {
+	pc := Product()
+	pc.SetCode("BR1847384-1098").
+		SetIsActive(false).
+		SetName("Dipirona")
+
+	changes := pc.Changes()
+	t.Log(changes)
+
+	if pc.IsZero() == true {
+		t.Fail()
+	}
+
+	values, err := pc.ChangesByProps("name", "code")
+	if err != nil {
+		t.Fail()
+	} else {
+		t.Log(values, len(values))
+	}
+
+	values, err = pc.ChangesByProps("active", "isActive")
+	if err != nil {
+		t.Log(err, values, len(values))
+	} else {
+		t.Fail()
+	}
+}

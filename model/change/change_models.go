@@ -156,3 +156,94 @@ func (uc *UnitChange) ChangesByProps(props ...string) ([]interface{}, error) {
 	}
 	return values, nil
 }
+
+type ProductChange struct {
+	Code     *string `json:"code"`
+	Name     *string `json:"name"`
+	Unit     *string `json:"unit"`
+	Type     *string `json:"type,omitempty"`
+	IsActive *bool   `json:"active"`
+}
+
+func Product() *ProductChange {
+	return &ProductChange{}
+}
+
+func (pc *ProductChange) SetCode(code string) *ProductChange {
+	if code != "" {
+		pc.Code = &code
+	}
+	return pc
+}
+
+func (pc *ProductChange) SetName(name string) *ProductChange {
+	if name != "" {
+		pc.Name = &name
+	}
+	return pc
+}
+
+func (pc *ProductChange) SetUnit(unit string) *ProductChange {
+	if unit != "" {
+		pc.Unit = &unit
+	}
+	return pc
+}
+
+func (pc *ProductChange) SetType(ptype string) *ProductChange {
+	if ptype != "" {
+		pc.Type = &ptype
+	}
+	return pc
+}
+
+func (pc *ProductChange) SetIsActive(active bool) *ProductChange {
+	pc.IsActive = &active
+	return pc
+}
+
+func (pc *ProductChange) Changes() map[string]interface{} {
+	changes := make(map[string]interface{})
+
+	if pc.Code != nil {
+		changes["code"] = *pc.Code
+	}
+	if pc.Name != nil {
+		changes["name"] = *pc.Name
+	}
+	if pc.Unit != nil {
+		changes["unit"] = *pc.Unit
+	}
+	if pc.Type != nil {
+		changes["type"] = *pc.Type
+	}
+	if pc.IsActive != nil {
+		changes["active"] = *pc.IsActive
+	}
+
+	return changes
+}
+
+func (pc *ProductChange) IsZero() bool {
+	changes := pc.Changes()
+	if len(changes) == 0 {
+		return true
+	}
+	return false
+}
+
+func (pc *ProductChange) ChangesByProps(props ...string) ([]interface{}, error) {
+	changes := pc.Changes()
+
+	values := make([]interface{}, 0, len(props))
+
+	for _, prop := range props {
+		if value, exits := changes[prop]; exits {
+			values = append(values, value)
+		} else {
+			return nil, fmt.Errorf("\"%s\" not found in properties of ProductChange", prop)
+		}
+	}
+
+	return values, nil
+}
