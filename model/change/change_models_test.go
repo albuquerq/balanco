@@ -1,6 +1,9 @@
 package change
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
 func TestEmployee(t *testing.T) {
 	ec := Employee()
@@ -79,5 +82,25 @@ func TestProduct(t *testing.T) {
 		t.Log(err, values, len(values))
 	} else {
 		t.Fail()
+	}
+}
+
+func TestBalance(t *testing.T) {
+	bc := Balance()
+	bc.SetDescription("balance for test").
+		SetDateInit(time.Now())
+
+	changes := bc.Changes()
+	t.Log(changes)
+
+	if bc.IsZero() == true {
+		t.Fail()
+	}
+
+	values, err := bc.ChangesByProps("description", "initAt")
+	if err != nil {
+		t.Fail()
+	} else {
+		t.Log(values, len(values))
 	}
 }

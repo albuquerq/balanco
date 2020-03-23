@@ -2,6 +2,7 @@ package change
 
 import (
 	"fmt"
+	"time"
 )
 
 type EmployeeChange struct {
@@ -242,6 +243,91 @@ func (pc *ProductChange) ChangesByProps(props ...string) ([]interface{}, error) 
 			values = append(values, value)
 		} else {
 			return nil, fmt.Errorf("\"%s\" not found in properties of ProductChange", prop)
+		}
+	}
+
+	return values, nil
+}
+
+type BalanceChange struct {
+	UnitID      *int64    `json:"unitId"`
+	Description *string   `json:"description"`
+	InitAt      time.Time `json:"initAt"`
+	EndAt       time.Time `json:"endAt"`
+}
+
+func Balance() *BalanceChange {
+	return &BalanceChange{}
+}
+
+func (bc *BalanceChange) SetUnitID(unitID int64) *BalanceChange {
+	if unitID > 0 {
+		bc.UnitID = &unitID
+	}
+	return bc
+}
+
+func (bc *BalanceChange) SetDescription(description string) *BalanceChange {
+	if description != "" {
+		bc.Description = &description
+	}
+	return bc
+}
+
+func (bc *BalanceChange) SetDateInit(init time.Time) *BalanceChange {
+	if !init.IsZero() {
+		bc.InitAt = init
+	}
+	return bc
+}
+
+func (bc *BalanceChange) SetDateEnd(end time.Time) *BalanceChange {
+	if !end.IsZero() {
+		bc.EndAt = end
+	}
+	return bc
+}
+
+func (bc *BalanceChange) IsZero() bool {
+	changes := bc.Changes()
+	if len(changes) == 0 {
+		return true
+	}
+	return false
+}
+
+func (bc *BalanceChange) Changes() map[string]interface{} {
+	changes := make(map[string]interface{})
+
+	if bc.UnitID != nil {
+		changes["unitId"] = *bc.UnitID
+	}
+	if bc.Description != nil {
+		changes["description"] = *bc.Description
+	}
+	if !bc.InitAt.IsZero() {
+		changes["initAt"] = bc.InitAt
+	}
+	if !bc.EndAt.IsZero() {
+		changes["endAt"] = bc.EndAt
+	}
+
+	if len(changes) == 0 {
+		return nil
+	}
+	return changes
+}
+
+func (bc *BalanceChange) ChangesByProps(props ...string) ([]interface{}, error) {
+	changes := bc.Changes()
+
+	values := make([]interface{}, 0, len(props))
+
+	for _, prop := range props {
+		if value, exists := changes[prop]; exists {
+			values = append(values, value)
+		} else {
+			return nil, fmt.Errorf("\"%s\" not found in properties of BalanceChange", prop)
 		}
 	}
 

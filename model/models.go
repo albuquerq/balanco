@@ -44,8 +44,8 @@ type Balance struct {
 	UnitID      int64          `json:"unitId"`
 	Unit        *Unit          `json:"unit,omitempty"`
 	Description string         `json:"description"`
-	DateInit    time.Time      `json:"initAt"`
-	DateEnd     time.Time      `json:"endAt"`
+	InitAt      time.Time      `json:"initAt"`
+	EndAt       time.Time      `json:"endAt"`
 	Items       []*BalanceItem `json:"items,omitempty"`
 }
 
