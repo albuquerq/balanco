@@ -51,22 +51,22 @@ type Balance struct {
 
 // BalanceItem is the balance item model.
 type BalanceItem struct {
-	StockID    int64     `json:"stockId"`
-	Stock      *Stock    `json:"stock"`
-	CheckingID int64     `json:"checkingID"`
-	Checking   *Checking `json:"checking,omitempty"`
+	StockItemID    int64         `json:"stockId"`
+	StockItem      *StockItem    `json:"stock"`
+	CheckingItemID int64         `json:"checkingID"`
+	CheckingItem   *CheckingItem `json:"checking,omitempty"`
 }
 
-// Stock is the stock model.
-type Stock struct {
+// StockItem is the stock model.
+type StockItem struct {
 	BalanceID int64     `json:"balanceId"`
 	ProductID int64     `json:"productId"`
 	Amount    int       `json:"amount"`
 	DateQuery time.Time `json:"queryAt"`
 }
 
-// Checking is the checking model.
-type Checking struct {
+// CheckingItem is the checking model.
+type CheckingItem struct {
 	ID         int64           `json:"id"`
 	BalanceID  int64           `json:"balanceId"`
 	ProductID  int64           `json:"productId"`
