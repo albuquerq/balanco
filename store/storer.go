@@ -28,4 +28,5 @@ type Storer interface {
 	ProductListByNameLike(ctx context.Context, limit, offset int64) ([]*model.Product, int64, error)
 	ProductListInactive(ctx context.Context, limit, offset int64) ([]*model.Product, int64, error)
 	ProductListByType(ctx context.Context, ptype string, limit, offset int64) ([]*model.Product, int64, error)
+	ProductListByCode(ctx context.Context, pcode string, limit, offset int64) ([]*model.Product, int64, error)
 }
